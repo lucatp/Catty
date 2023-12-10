@@ -20,26 +20,25 @@
  *  along with this program.  If not, see http://www.gnu.org/licenses/.
  */
 
-import Foundation
-extension SceneStartBrick: CBXMLNodeProtocol {
-    static func parse(from xmlElement: GDataXMLElement!, with context: CBXMLParserContext!) -> Self {
-        CBXMLParserHelper.validate(xmlElement, forNumberOfChildNodes: 1)
+extension ChangeSceneBrick: CBInstructionProtocol {
+    func instruction() -> CBInstruction {
+        CBInstruction.execClosure { _, schedular in
 
-        let brick = self.init()
-        if let selection: GDataXMLElement = xmlElement.child(withElementName: "sceneToStart") {
-            brick.selectedSceneName = selection.stringValue()
-        } else {
-            fatalError("SceneStartBrick contains no or invalid sceneToStart child element!")
+            guard let project = schedular.stageManagerDelegate?.project else {
+                print("No project")
+                return
+            }
+
+            let scenes = project.scenes.map { $0 as! Scene }
+
+            if let selectedSceneName = self.selectedSceneName {
+                switch self.type {
+                case .startBrick:
+                    schedular.stageManagerDelegate?.startnewScene(scene: scenes.first { $0.name == selectedSceneName }!)
+                case .transitionBrick:
+                    schedular.stageManagerDelegate?.continueScene(scene: scenes.first { $0.name == selectedSceneName }!)
+                }
+            }
         }
-
-        return brick
     }
-
-    func xmlElement(with context: CBXMLSerializerContext) -> GDataXMLElement? {
-        let brick = super.xmlElement(for: "SceneStartBrick", with: context)
-        let selection = GDataXMLElement(name: "sceneToStart", stringValue: self.selectedSceneName, context: context)
-
-        brick?.addChild(selection, context: context)
-        return brick
-   }
 }

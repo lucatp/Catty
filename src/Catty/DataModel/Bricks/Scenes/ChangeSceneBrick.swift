@@ -24,8 +24,25 @@
 // TODO allow new scenes to be created within the scenes picker
 // TODO if one scene gets deleted adjust the scene start brick
 
-@objc(SceneStartBrick)
-@objcMembers class SceneStartBrick: Brick, BrickProtocol, BrickSceneProtocol {
+@objc(ChangeSceneBrick)
+@objcMembers class ChangeSceneBrick: Brick, BrickProtocol, BrickSceneProtocol {
+
+    enum BrickType {
+        case startBrick
+        case transitionBrick
+    }
+
+    @objc var selectedScene: Scene?
+
+    @objc var selectedSceneName: String?
+
+    let type: BrickType
+
+    required init(type: BrickType) {
+        self.type = type
+        super.init()
+    }
+
     func sceneName() -> String! {
         selectedSceneName
     }
@@ -41,20 +58,18 @@
         self.selectedScene
     }
 
-    @objc var selectedScene: Scene?
-
-    @objc var selectedSceneName: String?
-
-    override required init() {
-        super.init()
-    }
-
     func category() -> kBrickCategoryType {
         kBrickCategoryType.controlBrick
     }
 
-    override class func description() -> String {
-        "SceneStartBrick"
+    override func description() -> String {
+
+        switch type {
+        case .startBrick:
+            return "SceneStartBrick"
+        case .transitionBrick:
+            return "SceneTransitionBrick"
+        }
     }
 
     override func getRequiredResources() -> Int {
@@ -62,7 +77,13 @@
     }
 
     override func brickCell() -> BrickCellProtocol.Type! {
-        SceneStartBrickCell.self as BrickCellProtocol.Type
+        switch type {
+        case .startBrick:
+            return SceneStartBrickCell.self as BrickCellProtocol.Type
+        case .transitionBrick:
+            return SceneTransitionBrickCell.self as BrickCellProtocol.Type
+        }
+
     }
 
     override func setDefaultValuesFor(_ spriteObject: SpriteObject!) {

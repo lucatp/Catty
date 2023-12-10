@@ -128,8 +128,8 @@
             StartTripleStitchBrick(),
             SewUpBrick(),
             StopCurrentStitchBrick(),
-            SceneStartBrick(),
-            SceneTransitionBrick()
+            ChangeSceneBrick(type: .startBrick),
+            ChangeSceneBrick(type: .transitionBrick)
         ]
 
         if isPhiroEnabled() {
