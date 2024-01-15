@@ -159,8 +159,6 @@
 
 + (void)askUserForProject:(SEL)action
                                       target:(id)target
-                                cancelAction:(SEL)cancelAction
-                                  withObject:(id)passingObject
                                  promptTitle:(NSString*)title
                                promptMessage:(NSString*)message
                                  promptValue:(NSString*)value
@@ -172,34 +170,25 @@
     [[[[[[[[[AlertControllerBuilder textFieldAlertWithTitle:title message:message]
      placeholder:placeholder]
      initialText:value]
-     addCancelActionWithTitle:kLocalizedCancel handler:^{
-         if (target && cancelAction) {
-             IMP imp = [target methodForSelector:cancelAction];
-             void (*func)(id, SEL) = (void *)imp;
-             func(target, cancelAction);
-         }
-     }]
+         
+         addCancelActionWithTitle:kLocalizedCancel handler:^{
+         }]
+
          addDefaultActionWithTitle:kLocalizedFr handler:^(NSString *name) {
              IMP imp = [target methodForSelector:action];
              if (target && action) {
-                 if (passingObject) {
-                     void (*func)(id, SEL, id, id, Boolean) = (void *)imp;
-                     func(target, action, name, passingObject, true);
-                 } else {
+                 
                      void (*func)(id, SEL, id, Boolean) = (void *)imp;
                      func(target, action, name, true);
-                 }
+                 
              }
          }]     addDefaultActionWithTitle:kLocalizedOK handler:^(NSString *name) {
          IMP imp = [target methodForSelector:action];
          if (target && action) {
-             if (passingObject) {
-                 void (*func)(id, SEL, id, id, Boolean) = (void *)imp;
-                 func(target, action, name, passingObject, false);
-             } else {
+
                  void (*func)(id, SEL, id, Boolean) = (void *)imp;
                  func(target, action, name, false);
-             }
+             
          }
      }]
      valueValidator:^InputValidationResult *(NSString *name) {

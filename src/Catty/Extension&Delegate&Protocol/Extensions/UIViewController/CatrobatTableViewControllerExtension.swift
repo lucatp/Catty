@@ -72,14 +72,26 @@ import Foundation
             return UIImage(named: "person.crop.circle#navbar")
         }
     }
-    
-    func createProject(inputName: String, isdefault: Bool) {
+
+    @objc func createProject(inputName: String, isdefault: Bool) {
         print("createProject bool: \(isdefault)")
-        
+
     }
-    
+
     func createProjectCreationDialogue() {
-        Util.askUser(forProject: #selector(createProject(inputName: isdefault: )), target: self, cancelAction: nil, with: nil, promptTitle: kLocalizedNewProject, promptMessage: kLocalizedProjectName, promptValue: nil, promptPlaceholder: kLocalizedEnterYourProjectNameHere, minInputLength: UInt(kMinNumOfProjectNameCharacters), maxInputLength: UInt(kMaxNumOfProjectNameCharacters), invalidInputAlertMessage: kLocalizedProjectNameAlreadyExistsDescription)
+
+//        Util.askUser(forUniqueNameAndPerformAction: #selector(createProject(inputName: isdefault: )), target: self, promptTitle: kLocalizedNewProject,
+//                     promptMessage: kLocalizedProjectName, promptValue: nil,
+//                     promptPlaceholder: kLocalizedEnterYourProjectNameHere,
+//                     minInputLength: UInt(kMinNumOfProjectNameCharacters), maxInputLength:
+//                        UInt(kMaxNumOfProjectNameCharacters), invalidInputAlertMessage:
+//                        kLocalizedProjectNameAlreadyExistsDescription, existingNames: Project.allProjectNames())
+
+        Util.askUser(forProject:  #selector(createProject(inputName: isdefault: )), target: self, promptTitle: kLocalizedNewProject,
+                     promptMessage: kLocalizedProjectName, promptValue: nil,
+                     promptPlaceholder: kLocalizedEnterYourProjectNameHere,
+                     minInputLength: UInt(kMinNumOfProjectNameCharacters), maxInputLength:
+                        UInt(kMaxNumOfProjectNameCharacters), invalidInputAlertMessage:
+                        kLocalizedProjectNameAlreadyExistsDescription, existingNames: Project.allProjectNames())
     }
-    
 }

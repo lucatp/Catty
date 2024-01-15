@@ -98,16 +98,15 @@ if (__functor) __functor(__VA_ARGS__);  \
                                existingNames:(NSArray* _Nullable)existingNames;
 
 + (void)askUserForProject:(SEL _Nullable)action
-                                target:(id _Nullable)target
-                          cancelAction:(SEL _Nullable)cancelAction
-                            withObject:(id _Nullable)passingObject
-                           promptTitle:(NSString* _Nullable)title
-                         promptMessage:(NSString* _Nullable)message
-                           promptValue:(NSString* _Nullable)value
-                     promptPlaceholder:(NSString* _Nullable)placeholder
-                        minInputLength:(NSUInteger)minInputLength
-                        maxInputLength:(NSUInteger)maxInputLength
-              invalidInputAlertMessage:(NSString* _Nullable)invalidInputAlertMessage;
+                                      target:(id _Nullable)target
+                                 promptTitle:(NSString* _Nullable)title
+                               promptMessage:(NSString* _Nullable)message
+                                 promptValue:(NSString* _Nullable)value
+                           promptPlaceholder:(NSString* _Nullable)placeholder
+                              minInputLength:(NSUInteger)minInputLength
+                              maxInputLength:(NSUInteger)maxInputLength
+                    invalidInputAlertMessage:(NSString* _Nullable)invalidInputAlertMessage
+                               existingNames:(NSArray* _Nullable)existingNames;
 
 + (void)askUserForTextAndPerformAction:(SEL _Nullable)action
                                 target:(id _Nullable)target
